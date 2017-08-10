@@ -2,6 +2,10 @@
 name = "rat"
 version = "0.1.0"
 authors = ["Stuart Reilly <stu@reilly-family.co.uk>"]
+build = "build.rs"
 
 [dependencies]
+clap = "2"
+
+[build-dependencies]
 clap = "2"

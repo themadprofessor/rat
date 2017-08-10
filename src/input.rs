@@ -2,6 +2,7 @@ use std::io::{Read, BufRead, BufReader, StdinLock};
 use std::io;
 use std::fs::File;
 
+#[derive(Debug)]
 pub enum Input<'a> {
     File(BufReader<File>),
     Stdin(StdinLock<'a>)

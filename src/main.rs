@@ -1,28 +1,16 @@
-extern crate clap;
+#[macro_use] extern crate clap;
 
 use std::io;
 use std::io::BufReader;
 use std::fs::File;
 
-use clap::{Arg, App};
-
 use input::Input;
 
 mod input;
+mod config;
 
 fn main() {
-    let matches = App::new("Rat")
-        .version("0.1.0")
-        .author("Stuart Reilly")
-        .about("Rust implementation of cat")
-        .arg(Arg::with_name("files")
-            .takes_value(true)
-            .multiple(true))
-        .arg(Arg::with_name("tabs")
-            .short("T")
-            .long("show-tabs"))
-        .get_matches();
-
+    let matches = config::build_cli().get_matches();
 
     let stdout = io::stdout();
     let stdin = io::stdin();
