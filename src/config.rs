@@ -25,8 +25,22 @@ impl Config {
         } else {
             Numbering::None
         };
+        let endings = args.is_present("ends") || args.is_present("show_all") || args.is_present("non_ending");
+        let squeeze = args.is_present("squeeze");
+        let non_printing = args.is_present("nonprint") || args.is_present("non_tabs") || args.is_present("show_all") || args.is_present("non_ending");
+        let tabs = args.is_present("tabs") || args.is_present("non_tabs") || args.is_present("show_all");
 
-        Config::default()
+        Config {
+            numbering,
+            endings,
+            squeeze,
+            non_printing,
+            tabs
+        }
+    }
+
+    pub fn is_fast(&self) -> bool {
+        self.numbering == Numbering::None && !self.endings && !self.squeeze && !self.non_printing && !self.tabs
     }
 }
 
@@ -81,6 +95,11 @@ pub fn build_cli() -> App<'static, 'static> {
             .long("show-ends")
             .help("display $ at the end of each line")
             .long_help("Append a $ character at the end of each line, preserving the EOL character."))
+        .arg(Arg::with_name("squeeze")
+            .short("s")
+            .long("squeeze-blank")
+            .help("suppress repeated empty lines")
+            .long_help("Suppress multiple empty lines into a single empty line."))
         .arg(Arg::with_name("show_all")
             .short("A")
             .long("show-all")
