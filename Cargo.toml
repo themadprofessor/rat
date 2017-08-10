@@ -3,6 +3,8 @@ name = "rat"
 version = "0.1.0"
 authors = ["Stuart Reilly <stu@reilly-family.co.uk>"]
 build = "build.rs"
+publish = false
+description = "Rust implmentation of cat. Concatonate files and print to standard output."
 
 [dependencies]
 clap = "2"
