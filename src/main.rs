@@ -1,8 +1,8 @@
 #![feature(ascii_ctype)]
+#![feature(test)]
 
 #[macro_use] extern crate clap;
-#[macro_use] extern crate lazy_static;
-extern crate regex;
+extern crate test;
 
 use std::iter;
 
@@ -20,12 +20,11 @@ fn main() {
         } else {
             cat::fast_write(iter::once("-"))
         }
+    } else if matches.is_present("files") {
+        cat::slow_write(matches.values_of("files").unwrap(), &config)
     } else {
-        if matches.is_present("files") {
-            cat::slow_write(matches.values_of("files").unwrap(), &config)
-        } else {
-            cat::slow_write(iter::once("-"), &config)
-        }
+        cat::slow_write(iter::once("-"), &config)
     }
+
 }
 

@@ -1,10 +1,7 @@
 use std::io;
 use std::io::{Write, BufReader, BufRead};
 use std::fs::File;
-use std::borrow::Cow;
 use std::ascii::AsciiExt;
-
-use regex::Regex;
 
 use input::Input;
 use config::{Config, Numbering};
@@ -86,11 +83,11 @@ pub fn slow_write<'a, S, T>(files: T, config: &Config) where S: Iterator<Item=&'
             squeeze = false;
 
             if config.tabs {
-                line = show_tabs(&line).into_owned();
+                line = show_tabs(&line);
             }
 
             if config.endings {
-                line = show_ends(&line).into_owned();
+                line = show_ends(&line);
             }
 
             if config.non_printing {
@@ -125,21 +122,15 @@ pub fn slow_write<'a, S, T>(files: T, config: &Config) where S: Iterator<Item=&'
     }
 }
 
-fn show_tabs<'a>(line: &'a str) -> Cow<'a, str> {
-    lazy_static! {
-        static ref REG_TAB: Regex = Regex::new(r"\t").unwrap();
-    }
-    REG_TAB.replace(line, "^I")
+fn show_tabs(line: &str) -> String {
+    line.replace("\t", "^I")
 }
 
-fn show_ends<'a>(line: &'a str) -> Cow<'a, str> {
-    lazy_static!{
-        static ref REG_END: Regex = Regex::new(r"\n").unwrap();
-    }
-    REG_END.replace(line, "$\n")
+fn show_ends(line: &str) -> String {
+    line.replace("\n", "$\n")
 }
 
-fn show_non<'a>(line: &'a str) -> String {
+fn show_non(line: &str) -> String {
     let mut res = String::with_capacity(line.len() * 2);
     for c in line.chars() {
         if c.is_ascii_control() && c != '\n' && c != '\t' {
