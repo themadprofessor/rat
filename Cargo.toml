@@ -9,6 +9,7 @@ description = "Rust implmentation of cat. Concatonate files and print to standar
 [dependencies]
 clap = "2"
 regex = "0.2"
+lazy_static = "0.2"
 
 [build-dependencies]
 clap = "2"

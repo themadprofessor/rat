@@ -1,13 +1,10 @@
+#![feature(ascii_ctype)]
+
 #[macro_use] extern crate clap;
+#[macro_use] extern crate lazy_static;
+extern crate regex;
 
-use std::io;
-use std::io::BufReader;
-use std::fs::File;
 use std::iter;
-
-use clap::ArgMatches;
-
-use input::Input;
 
 mod input;
 mod config;
@@ -24,11 +21,11 @@ fn main() {
             cat::fast_write(iter::once("-"))
         }
     } else {
-        println!("TODO");
+        if matches.is_present("files") {
+            cat::slow_write(matches.values_of("files").unwrap(), &config)
+        } else {
+            cat::slow_write(iter::once("-"), &config)
+        }
     }
 }
 
-fn exit(code: i32, msg: &str) -> ! {
-    eprintln!("{}", msg);
-    ::std::process::exit(code)
-}
