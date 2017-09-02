@@ -1,8 +1,6 @@
 #![feature(ascii_ctype)]
-#![feature(test)]
 
 #[macro_use] extern crate clap;
-extern crate test;
 
 use std::iter;
 
